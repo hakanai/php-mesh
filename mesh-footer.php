@@ -21,41 +21,25 @@
     at the following address: trejkaz@xaoza.net
 */
 
-    // Include user configuration from the root of the web directory.
-    // Do this first in case the user's configuration has a space in it, which
-    // might otherwise cause a space to be printed before the XML prologue, which would break the pages.
-    require_once("${DOCUMENT_ROOT}/.phpmeshrc");
-
     // The real page just occurred because this is the footer.
-    // Do this before the class includes so any errors in the includes are reported.
-    $pageContent = ob_get_contents();
+    $page_content = ob_get_contents();
     ob_end_clean();
 
-    // Include the page parsing class.
-    require_once("Mesh.class.php");
-
     // Create the page object.  This guy does all the parsing work.
-    $mesh = new Mesh($pageContent);
+    $page = new Page($page_content);
 
-    // Determine which decorator to use.
-
-    // First, see if a 'decorator' parameter was specified in the URL.
-    $decorator_name = $HTTP_GET_VARS["decorator"];
-    if ($decorator_name == '' || preg_match("/^\w+$/", $decorator_name) != 1)
+    // Get the decorator using the optional 'decorator' parameter specified in the URL.
+    if (@isset($HTTP_GET_VARS["decorator"]))
     {
-        // No parameter was specified, so use the default.
-        $decorator_name = $meshconfig{'decorator_default'};
+        $decorator = $decorator_selector->getDecorator($HTTP_GET_VARS["decorator"]);
+    }
+    else
+    {
+        // Will use the default.
+        $decorator = $decorator_selector->getDecorator(NULL);
     }
 
-    // Now make sure the decorator exists.
-    $decorator_filename = $DOCUMENT_ROOT . '/' . $meshconfig{'decorator_directory'} . '/' . $decorator_name;
-    if (!file_exists($decorator_filename))
-    {
-        // The file did not exist, so use the default. 
-        $decorator_filename = $DOCUMENT_ROOT . '/' . $meshconfig{'decorator_directory'} . '/' . $meshconfig{'decorator_default'};
-    }
-
-    // Now include.  If it's using the default, we hope it exists.
-    include("${DOCUMENT_ROOT}/decorators/${decorator_name}.php");
+    // Perform the decoration.
+    $decorator->decorate($page);
 
 ?>

@@ -21,19 +21,21 @@
     at the following address: trejkaz@xaoza.net
 */
 
-    // Include user configuration from the base web directory.
-    // Redundant right now because we don't use any configuration here.
-    //require_once("${DOCUMENT_ROOT}/.phpmeshrc");
+    // Include the various classes which make up the system.
+    require_once("Page.class.php");
+    require_once("Decorator.class.php");
+    require_once("DecoratorSelector.class.php");
+
+    // Create the object which will locate the decorators.
+    $decorator_selector = new DecoratorSelector();
 
     // Bunch of crap to disable caching.
+    // TODO: Decide whether this should perhaps go elsewhere.
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");                // Date in the past
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");   // always modified
     header("Cache-Control: no-store, no-cache, must-revalidate");    // HTTP/1.1
     header("Cache-Control: post-check=0, pre-check=0", false);
     header("Pragma: no-cache");                                      // HTTP/1.0
-
-    // Now we have to scrape the useful stuff out of the page...
-    $matches = array();
 
     // Use output buffering to read the page into a string.
     ob_start();
