@@ -11,9 +11,9 @@ mkdir -p $TEMPDIR
 
 cp -R CHANGES LICENSE README *.php docs example tests $TEMPDIR
 #TODO: Make this work for more recursion.
-rm -rf $TEMPDIR/docs/CVS
-rm -rf $TEMPDIR/example/CVS
-rm -rf $TEMPDIR/tests/CVS
+rm -rf $TEMPDIR/docs/.svn
+rm -rf $TEMPDIR/example/.svn
+rm -rf $TEMPDIR/tests/.svn
 
 tar zcf $ARCHIVE $TEMPDIR
 
