@@ -29,16 +29,35 @@
     // Create the object which will locate the decorators.
     $decorator_selector = new DecoratorSelector();
 
-    // Bunch of crap to disable caching.
-    // TODO: Decide whether this should perhaps go elsewhere.
-    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");                // Date in the past
-    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");   // always modified
-    header("Cache-Control: no-store, no-cache, must-revalidate");    // HTTP/1.1
-    header("Cache-Control: post-check=0, pre-check=0", false);
-    header("Pragma: no-cache");                                      // HTTP/1.0
+    // Get the decorator using the optional 'decorator' parameter specified in the URL.
+    if (! @isset($_GET["decorator"]))
+    {
+        // Will use the default.
+        $decorator = $decorator_selector->get_decorator(NULL);
+    }
+    else if ($_GET["decorator"] == "identity")
+    {
+        $decorator = NULL;
+    }
+    else
+    {
+        $decorator = $decorator_selector->get_decorator($_GET["decorator"]);
+    }
 
-    // Use output buffering to read the page into a string.
-    ob_start();
+    // Bypass decoration entirely, for the identity decorator.
+    if ($decorator != NULL)
+    {
+        // Bunch of crap to disable caching.
+        // TODO: Decide whether this should perhaps go elsewhere.
+        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");                // Date in the past
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");   // always modified
+        header("Cache-Control: no-store, no-cache, must-revalidate");    // HTTP/1.1
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");                                      // HTTP/1.0
+
+        // Use output buffering to read the page into a string.
+        ob_start();
+    }
 
     // The real page will occur next because this file is the header.
 ?>

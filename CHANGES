@@ -2,6 +2,11 @@
 Change Log
 -----------
 
+  - FEATURE REQUEST: Query strings are now supported with $page->apply_decorator().
+
+  - Added the "identity" decorator to work natively.  decorator=identity in the query string
+    now causes all buffering to be bypassed.
+
 Version v1.1:
 
   - FEATURE REQUEST: Made $REQUEST_URI easily available through $page.

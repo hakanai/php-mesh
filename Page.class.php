@@ -216,11 +216,30 @@ class Page
     function apply_decorator($page_location, $decorator_name)
     {
         global $decorator_selector;
+        global $_GET;
+        global $_POST;
+
+        // Store the original GET and POST variables.
+        $OLD_GET = $_GET;
+        $OLD_POST = $_POST;
+
+        // Does the page location have a query string?  If it does, we need to parse it!
+        $_GET = array();
+        $_POST = array();
+        $parsed_location = parse_url($page_location);
+        if (isset($parsed_location['query']))
+        {
+            parse_str($parsed_location['query'], $_GET);
+        }
 
         // Capture the output from requiring the page.
         ob_start();
-        require($decorator_selector->get_path($page_location));
+        require($decorator_selector->get_path($parsed_location['path']));
         $page_contents = ob_get_clean();
+
+        // Restore the original GET and POST variables.
+        $_GET = $OLD_GET;
+        $_POST = $OLD_POST;
 
         // Create the page object.  This guy does all the parsing work.
         $page = new Page($page_contents);
