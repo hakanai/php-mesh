@@ -21,15 +21,18 @@
     at the following address: trejkaz@xaoza.net
 */
 
-    // Include the page parsing class.
-    require_once("Mesh.class.php");
-
     // Include user configuration from the root of the web directory.
+    // Do this first in case the user's configuration has a space in it, which
+    // might otherwise cause a space to be printed before the XML prologue, which would break the pages.
     require_once("${DOCUMENT_ROOT}/.phpmeshrc");
 
     // The real page just occurred because this is the footer.
+    // Do this before the class includes so any errors in the includes are reported.
     $pageContent = ob_get_contents();
     ob_end_clean();
+
+    // Include the page parsing class.
+    require_once("Mesh.class.php");
 
     // Create the page object.  This guy does all the parsing work.
     $mesh = new Mesh($pageContent);
@@ -56,4 +59,3 @@
     include("${DOCUMENT_ROOT}/decorators/${decorator_name}.php");
 
 ?>
-
