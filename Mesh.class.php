@@ -27,7 +27,7 @@
  *
  * @author Trejkaz Xaoza <trejkaz@xaoza.net>
  */
-class Page
+class Mesh
 {
     // The page title.
     var $title;
@@ -45,11 +45,11 @@ class Page
     var $bodyAttrs = array();
 
     /**
-     * Constructs a Page object.
+     * Constructs a Mesh object.
      *
      * @param $pageContent The entire page content, as a single string.
      */
-    function Page($pageContent)
+    function Mesh($pageContent)
     {
         // Match the <head/> element.
         if (preg_match("#<head.*?>(.*?)</head>#s", $pageContent, $matches))
@@ -180,6 +180,6 @@ class Page
         print($this->body);
     }
 
-} // class Page
+} // class Mesh
 
 ?>
