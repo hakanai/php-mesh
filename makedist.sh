@@ -9,8 +9,9 @@ ARCHIVE=${PRODUCT}-${VERSION}.tar.gz
 rm -rf $TEMPDIR
 mkdir -p $TEMPDIR
 
-cp -R CHANGES LICENSE README *.php example $TEMPDIR
+cp -R CHANGES LICENSE README *.php docs example $TEMPDIR
 #TODO: Make this work for more recursion.
+rm -rf $TEMPDIR/docs/CVS
 rm -rf $TEMPDIR/example/CVS
 
 tar zcf $ARCHIVE $TEMPDIR
