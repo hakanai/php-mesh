@@ -40,4 +40,3 @@
 
     // The real page will occur next because this file is the header.
 ?>
-
