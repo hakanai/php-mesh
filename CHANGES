@@ -2,6 +2,11 @@
 Change Log
 -----------
 
+  - BUGFIX: Fixed incorrect name for $property_name which was making the get_property
+    function not work as expected (thanks to Larry Klug for spotting that one.)
+
+Version 1.2.1:
+
   - BUGFIX: Fix problems with detecting absolute paths on Windows by using the new function
     resolve_path, rather than relying on POSIX conventions.
 
