@@ -129,10 +129,21 @@ class Page
     }
 
     /**
+     * Gets the URL of the page which is being viewed.
+     *
+     * @return the URL of the page which is being viewed.
+     */
+    function get_url()
+    {
+        return $_SERVER['REQUEST_URI'];
+    }
+
+    /**
      * Get a single property.
      *
      * @param $property_name The name of the property.
      * @param $default The default value of the property, to use if the property is not defined.
+     * @return the value of that property, or the default if the property was not defined.
      */
     function get_property($propertyName, $default = NULL)
     {
@@ -198,7 +209,8 @@ class Page
     /**
      * Includes the specified page as decorated content.
      *
-     * @param $page_location the location of the page, a filename.
+     * @param $page_location the location of the page to fetch and apply the
+      *                      decorator too, which may be relative to the decorator.
      * @param $decorator_name the name of the decorator to decorate the page with.
      */
     function apply_decorator($page_location, $decorator_name)
