@@ -40,7 +40,11 @@ REQUIRMENTS:
 
     An Apache web server environment is preferable, as it is the server which
     my sample configuration scripts are written for.  Other servers should work
-    with the correct configuration (but does anyone really run anything else?)
+    with the correct configuration (but does anyone really run anything other
+    than Apache anymore?)
+
+    For the php_value directives to work in your configuration, the web server
+    requires the AllowOverride directive to contain Options.
 
 INSTALLING:
 
@@ -64,6 +68,13 @@ INSTALLING:
 
     5. Complete!  Viewing a PHP file from your document directory should now
        result in the file being meshed with the example decorator.
+
+INSTALLATION NOTES:
+
+    On some default Apache installs, including that of Mac OSX, Apache is
+    configured to allow no overrides.  In this event, you will need to add
+    "AllowOverride Options" to your Apache configuration, so that the php_value
+    settings in the .htaccess file work correctly.
 
 FURTHER INFORMATION:
 
