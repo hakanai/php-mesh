@@ -2,6 +2,9 @@
 Change Log
 -----------
 
+  - Added utils.php, with some common utilities which I'll need to make things more portable.
+    Added the unit tests at the same time.
+
 Version v1.2:
 
   - FEATURE REQUEST: Query strings are now supported with $page->apply_decorator(), so you can
