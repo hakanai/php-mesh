@@ -145,7 +145,7 @@ class Page
      * @param $default The default value of the property, to use if the property is not defined.
      * @return the value of that property, or the default if the property was not defined.
      */
-    function get_property($propertyName, $default = NULL)
+    function get_property($property_name, $default = NULL)
     {
         $property_value = $this->_properties[$property_name];
         if ($property_value == NULL)
