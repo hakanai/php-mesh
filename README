@@ -1,0 +1,220 @@
+
+PHP-Mesh   - Page meshing framework for PHP.
+Copyright © 2003  Trejkaz Xaoza
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+You can contact the author by electronic mail, which is presently
+at the following address: trejkaz@xaoza.net
+
+
+
+I'd like to take this time and thank you for your interest in Oak.
+
+HISTORY:
+Oak's project of mine that's been in the works for quite some time
+morphing from one form to another producing a better product each
+and every time it's coded. Thanks to Christiaan this version has
+developed into a more standard, well laid out, and flexiable version.
+Without his help I don't think Oak would be where it is today.
+Christiaan has helped me greatly in advancing my programming skills,
+I send many thanks out to him.
+
+GOAL:
+The goal of this project is to produce a fully functional, extendable
+IRC bot.
+
+REQUIRMENTS:
+This is a development version so the minum requirements are:
+A 1.2 java compiler (Sun's JDK 1.2 is suggested)
+A 1.1 java runtime environment (Sun's JRE 1.2 suggested)
+  (not fully tested on 1.1 platform)
+Approx 900k of free disk space for sources and compiled bytecodes (this 
+is an over estimate)
+Somewhere around 16 meg's memory whatever it takes to run your JRE should
+be fine for Oak.
+
+If you plan on using the BotDatabaseSecurityManager as the
+security manager of choice you'll also need a database server.
+Currently, PostgreSQL and mSQL are supported. Porting the DBMS-specific 
+stuff to mySQL should be easy.
+
+
+INSTALLING:
+Since this is a pure java program it's easy to install even with out
+an installer. Unzip oak.zip into a directory by itself add that
+directory to the classpath environment variable. If you don't know
+how to do that visit the general faq at http://www.moxy.org. To finish
+the install you'll need to compile the source files using make if your 
+system supports it or compile all .java files by hand.
+
+After you have all the sources compiled the last step is to create a
+configuration file. We have provided a program to generate one for you.
+type
+java com.cjw.oak.GUIConfigurator 
+on your console and the configuration program will start. Simply go though
+the panels filling out all the information. The most important info to input
+is a server to join on startup, a nick, a Security manager, and a Fullname.
+
+Use the "apply" button to save the prefs in a panel (don't forget this, 
+the OK button doesn't work yet). If a value is not allowed, an message 
+stating this will be displayed at the top of the window. If the apply 
+was successful, no message will be shown.
+
+Exit the program by killing the config app (this is only a preview 
+configurator, the next version should be more user friendly).
+
+If no new panel appears when you push a button, the corresponding preference 
+panel probably doesn't exist. Note that none of the plugins are required to 
+have a preference panel. Only the DB security manager and the Trivia plugin 
+have one at this time.
+
+The following text was written for a console configurator. It is in the tree 
+but it doesn't produce the correct preferences. Use this for a description 
+of some preferences.
+
+The "Configuration Menu":
+i) Identd Server's are needed if you're system isn't running one. If you 
+	don't know if your system is running one or now it will not hurt 
+	anything to enable this option. 
+s) Servers will allow you to configure the servers oak should join when 
+	it starts up. If no servers are listed Oak won't join any and there 
+	currently isn't a way to get Oak to join a server on the console.
+f) The fullname of the bot. Anything will do but should be filled out.
+n) The nick the bot is to try and use.
+S) The security manager the bot should use. Security managers are what handle 
+	the the permissions and login information in the bot. 
+	The currently available security managers are
+      - org.moxy.oak.security.PropertiesSecurityManager
+        uses a properties file, no additional software needed
+      - org.moxy.oak.security.BotDatabaseSecurityManager
+        uses a SQL database, see the note above
+
+The "IdentD Menu":
+e/d) Enables or disables the server at startup. If your system already runs an 
+	identd server and you enable it here nothing will happen Oak will give 
+	way to the currently running server.
+p) The port the identd server should run on. Typically you should use the 
+	default 113
+u) The name of the user of the bot.
+[s) They type of system the bot is running on Windows/Unix/Mac/etc. (?)]
+
+The "Server Menu":
+a) Adds a server to the list of servers to join at startup.
+d) deletes the current server
+c) Sets the channels the bot will join on that server after successful 
+	connection (another menu)
+e) Edits the hostname and port for the current server.
+s) switches the current server with another one.
+l) lists all the know servers available.
+
+The "Channel Menu":
+a) Adds a channel the bot will join when connecting to the server.
+d) removes a channel the bot joins when connecting to a server
+P) adds a channel plugin to be loaded in the current channel when 
+	the bot joins the channel.
+D) delets a channel plugin that is loaded in the current channel 
+	when the bot joins the channel
+L) lists all the plugins and their parameters that will be loaded
+	in the current channel when it is joined on startup
+s) changes the current channel 
+l) lists all the known channels that are joined on startup.
+
+The "Configure Server" menu:
+h) Changes the host name or ip address for the server
+p) changes the port number to connect on the typical port is 6667 
+	for an irc server
+a) adds a server plugin to be loaded when connecting to the server
+	on startup.
+d) removes a plugin that is loaded when connecting to the server
+	on startup.
+l) lists all the known plugins that are loaded when connecting to
+	the server on startup
+
+After you have successfully ran a configurator, you can run Oak with
+java org.moxy.oak.Oak
+This will allow for the SecurityManager and any other module to 
+initilize itself [will not happen with up-to-date plugins]. 
+After the SecurityManager initilizes itself you can either exit Oak or 
+leave it running.
+
+PropertiesSecurityManager's initilization
+If you decided to go with PropertiesSecurityManager good for you It's 
+the best, and easiest one I have found to set up. Not to mention I coded
+it myself ;oP. Oak will say that it couldn't find the users.props file
+and ask if you would like to create one. Tell it yes. (press "y" and 
+enter) Oak then asks you for a master user login name enter any alpha-
+numeric combination. What ever you enter will be the "root" login name.
+It next asks you for a password. Pick a good one if someone cracks this
+accout you can be in for a heap of trouble. The master account is allowed
+to do anything with out security checks. (well not currently but we're 
+getting there). Yes the password WILL be displayed on the screen when
+you enter it so be carefull. After entering your password it will ask 
+you for the nickmask (a.k.a. the banmask) of the master user. Be as specific
+as you can with this as it provides added security. A nick mask of * or *!*@*
+will allow ANYONE to login as the master account. My mask looks something 
+similar to moxy!moxers@*.my.isp.net. Moxy being my registered nick (with nick
+kill enabled). Now your master account is set up PropertiesSecurityManager 
+needs to learn about some servers and what network they belong too. Oak will
+tell you that networks.props file wasn't found and asks you if you would like
+to create one. Enter y and press enter. PropertiesSecurityManager by default
+adds a list of dalnet servers to the list (hey I'm a dalnet users ;o) It then
+asks if you want to add more servers to the list. If you are going to be using 
+the bot on a dalnet server you probabbly don't need to add anymore servers the
+default dalnet list is generally kept pretty much up-to-date. After you you say
+no (or yes if you don't use dalnet) Oak continues to load and 
+PropertiesSecurityManager has been properly configured.
+
+
+RUNNING:
+After oak has been completely configured (see above) just use:
+java org.moxy.oak.Oak
+to start oak up if you want to enable the console use:
+java -DCONSOLE="TRUE" org.moxy.oak.Oak
+The console is disabled by default and will not allow non configuration 
+input from the console. The only time this really becomes a concern is
+if you want to run Oak in the background.
+
+
+TODO:
+ A few things are left yet to be done before I take Oak out of development.
+ Not much left but if there's any suggestions send them on over to
+ moxy@moxy.org. (Come on make me want to set up a new box just for suggestions.)
+
+ 1) I'd like to add some console admin type commands based around the
+    idea of a current IRC connection.
+    ** CURRENT STATUS the current IRC connection idea is currently coded
+    **		      all that's left are implementing the actual commands.
+
+ 2) OakPluginManager needs to be made into an interface and pluggable or
+    (more likely) that configuration option needs to be removed.
+    ** RESOLVED the configuration will be removed. I see no reason
+    **          to have the plugin manager pluggable.
+
+ 3) A decent GUI editor for the users.props and networks.props files would be
+    nice but not imperative before the final release.
+    ** RESOLVED these will be made as utilities and not as part of the standard
+    **          release
+
+ 4) OakCommand should have the option of working via CTCP, private msg's or
+    both.
+    ** RESOLVED oak will not ship with msg control capabilities but the
+    **          CommandPlug's will be pluggable and this behavior can easily
+    **          be implemented.
+
+ 5) A platform independent installer needs to be created for the easy set up
+    and creation of default configuration files.
+
+ 6) Some sort of "am I on you" command.
