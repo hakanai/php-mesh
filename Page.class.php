@@ -210,7 +210,7 @@ class Page
      * Includes the specified page as decorated content.
      *
      * @param $page_location the location of the page to fetch and apply the
-      *                      decorator too, which may be relative to the decorator.
+      *                      decorator to, which may be relative to the decorator.
      * @param $decorator_name the name of the decorator to decorate the page with.
      */
     function apply_decorator($page_location, $decorator_name)
