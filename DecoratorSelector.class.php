@@ -22,6 +22,7 @@
 */
 
 require_once('Decorator.class.php');
+require_once('utils.php');
 
 /**
  * This class defines objects which are capable of locating decorator files
@@ -54,30 +55,20 @@ class DecoratorSelector
         // Get the name of the default decorator.
         $this->_default_decorator_name = $meshconfig{'decorator_default'};
 
-        // Construct the decorator directory.
-        $this->_decorator_directory = $meshconfig{'decorator_directory'};
-        if (strstr($this->_decorator_directory, '/') != 1)
-        {
-            $this->_decorator_directory = $_SERVER['DOCUMENT_ROOT'] . '/' . $this->_decorator_directory;
-        }
-        // (Canonicalise the path.)
-        $this->_decorator_directory = realpath($this->_decorator_directory);
+        // Resolve the decorator directory relative to the document root.
+        $this->_decorator_directory = resolve_path($_SERVER['DOCUMENT_ROOT'], $meshconfig{'decorator_directory'});
     }
 
     /**
      * Gets the absolute path to a file for the given filename, which may be relative.
-     * The path is relative to the decorator directory.
+     * The path is resolved relative to the decorator directory.
      *
      * @param $path the path to the file, relative or absolute.
      * @return the absolute path to the file.
      */
     function get_path($path)
     {
-        if (substr($path,1,1) != '/')
-        {
-            $path = $this->_decorator_directory . '/' . $path;
-        }
-        return realpath($path);
+        return resolve_path($this->_decorator_directory, $path);
     }
 
     /**
@@ -104,7 +95,7 @@ class DecoratorSelector
         }
 
         // Now try the default...
-        $decorator_filename = $this->_decorator_directory . '/' . $this->_default_decorator_name . '.php';
+        $decorator_filename = $this->get_path($this->_default_decorator_name . '.php');
         if (file_exists($decorator_filename))
         {
             return new Decorator($decorator_filename);

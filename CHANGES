@@ -2,6 +2,9 @@
 Change Log
 -----------
 
+  - BUGFIX: Fix problems with detecting absolute paths on Windows by using the new function
+    resolve_path, rather than relying on POSIX conventions.
+
   - Added utils.php, with some common utilities which I'll need to make things more portable.
     Added the unit tests at the same time.
 
