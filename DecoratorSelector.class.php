@@ -46,11 +46,9 @@ class DecoratorSelector
      */
     function DecoratorSelector()
     {
-        global $DOCUMENT_ROOT;
-
         // Protect against Random Q. User inserting space in his config file.
         ob_start();
-        require("${DOCUMENT_ROOT}/.phpmeshrc");
+        require($_SERVER['DOCUMENT_ROOT'] . '/.phpmeshrc');
         ob_end_clean();
 
         // Get the name of the default decorator.
@@ -60,7 +58,7 @@ class DecoratorSelector
         $this->_decorator_directory = $meshconfig{'decorator_directory'};
         if (strstr($this->_decorator_directory, '/') != 1)
         {
-            $this->_decorator_directory = $DOCUMENT_ROOT . '/' . $this->_decorator_directory;
+            $this->_decorator_directory = $_SERVER['DOCUMENT_ROOT'] . '/' . $this->_decorator_directory;
         }
         // (Canonicalise the path.)
         $this->_decorator_directory = realpath($this->_decorator_directory);
