@@ -2,6 +2,8 @@
 Change Log
 -----------
 
+Version v1.1:
+
   - FEATURE REQUEST: Made $REQUEST_URI easily available through $page.
 
 Version v1.0:
