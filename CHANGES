@@ -2,7 +2,10 @@
 Change Log
 -----------
 
-  - FEATURE REQUEST: Query strings are now supported with $page->apply_decorator().
+Version v1.2:
+
+  - FEATURE REQUEST: Query strings are now supported with $page->apply_decorator(), so you can
+    now decorate pages like "../portlets/somepage.php?value=5".
 
   - Added the "identity" decorator to work natively.  decorator=identity in the query string
     now causes all buffering to be bypassed.
