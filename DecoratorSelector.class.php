@@ -67,6 +67,22 @@ class DecoratorSelector
     }
 
     /**
+     * Gets the absolute path to a file for the given filename, which may be relative.
+     * The path is relative to the decorator directory.
+     *
+     * @param $path the path to the file, relative or absolute.
+     * @return the absolute path to the file.
+     */
+    function get_path($path)
+    {
+        if (substr($path,1,1) != '/')
+        {
+            $path = $this->_decorator_directory . '/' . $path;
+        }
+        return realpath($path);
+    }
+
+    /**
      * Gets a Decorator object for the given name.
      * If the name is not provided, gets the default decorator.  If the decorator
      * requested is not found, the default is used instead (assuming of course that
@@ -80,7 +96,7 @@ class DecoratorSelector
         // Ensure the name provided is valid enough to use.
         if ($decorator_name != NULL && $decorator_name != '' && preg_match("/^\w+$/", $decorator_name) == 1)
         {
-            $decorator_filename = $this->_decorator_directory . '/' . $decorator_name . '.php';
+            $decorator_filename = $this->get_path($decorator_name . '.php');
 
             // Fall out to use the default if the file couldn't be found.
             if (file_exists($decorator_filename))
