@@ -3,9 +3,21 @@ Change Log
 -----------
 
 Version v0.2:
-  - Renamed Page class to Mesh.
-  - Simplified method names, bringing them more inline with SiteMesh's tag names.
+
+  - Implemented the 'apply_decorator' function on the Page class, which allows decorators to
+    be applied to pages on demand.  Currently implemented only from the decorators themselves,
+    but it might be advantageous to allow this on pages even though I can't see a use for it
+    just yet.
+
+  - Abstracted decorator location and execution logic into two new classes: DecoratorSelector
+    and Decorator respectively.
+
+  - Changed many method and variable names, bringing them more inline with SiteMesh's tag names
+    where appropriate and making naming scheme more PHP-like.
+
 
 Version 0.1:
+
   - Initial release.
+
 
