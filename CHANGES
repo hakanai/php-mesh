@@ -2,12 +2,15 @@
 Change Log
 -----------
 
-Version v0.2:
+Version v0.5:
 
   - Implemented the 'apply_decorator' function on the Page class, which allows decorators to
     be applied to pages on demand.  Currently implemented only from the decorators themselves,
     but it might be advantageous to allow this on pages even though I can't see a use for it
     just yet.
+
+    This provides portal-like functionality, automatically embedding a page which works
+    standalone, such that it will work as a fragment.
 
   - Abstracted decorator location and execution logic into two new classes: DecoratorSelector
     and Decorator respectively.
