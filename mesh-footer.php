@@ -22,7 +22,7 @@
 */
 
     // Include the page parsing class.
-    require_once("Page.class.php");
+    require_once("Mesh.class.php");
 
     // Include user configuration from the root of the web directory.
     require_once("${DOCUMENT_ROOT}/.phpmeshrc");
@@ -32,7 +32,7 @@
     ob_end_clean();
 
     // Create the page object.  This guy does all the parsing work.
-    $page = new Page($pageContent);
+    $mesh = new Mesh($pageContent);
 
     // Determine which decorator to use.
 
