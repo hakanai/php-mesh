@@ -131,17 +131,17 @@ class Page
     /**
      * Get a single property.
      *
-     * @param $propertyName The name of the property.
+     * @param $property_name The name of the property.
      * @param $default The default value of the property, to use if the property is not defined.
      */
-    function getProperty($propertyName, $default = NULL)
+    function get_property($propertyName, $default = NULL)
     {
-        $propertyValue = $this->_properties[$propertyName];
-        if ($propertyValue == NULL)
+        $property_value = $this->_properties[$property_name];
+        if ($property_value == NULL)
         {
-            $propertyName = $default;
+            $property_name = $default;
         }
-        return $propertyValue;
+        return $property_value;
     }
 
     /**
@@ -150,36 +150,36 @@ class Page
      * Properties found in <meta> tags are named meta.[propertyName].
      * Properties found on the <body> tag as attributes are named body.[propertyName].
      *
-     * @param $propertyName The name of the property.
+     * @param $property_name The name of the property.
      * @param $default The default value of the property, to use if the property is not defined.
      * @param $formatted Whether to format the property as it originally appeared.
      */
-    function property($propertyName, $default = NULL, $formatted = false)
+    function property($property_name, $default = NULL, $formatted = false)
     {
-        $propertyValue = $this->getProperty($propertyName, $default);
-        if ($propertyValue != NULL)
+        $property_value = $this->get_property($property_name, $default);
+        if ($property_value != NULL)
         {
             if ($formatted)
             {
-                if (strstr($propertyName, "meta.") == 0)
+                if (strstr($property_name, "meta.") == 0)
                 {
-                    print("<meta name=\"$metaName\" content=\"");
+                    print("<meta name=\"$property_name\" content=\"");
                 }
-                else if (strstr($propertyName, "body.") == 0)
+                else if (strstr($property_name, "body.") == 0)
                 {
-                    print(" $attrName=\"");
+                    print(" $property_name=\"");
                 }
             }
 
-            print($propertyValue);
+            print($property_value);
 
             if ($formatted)
             {
-                if (strstr($propertyName, "meta.") == 0)
+                if (strstr($property_name, "meta.") == 0)
                 {
                     print("\" />");
                 }
-                else if (strstr($propertyName, "body.") == 0)
+                else if (strstr($property_name, "body.") == 0)
                 {
                     print("\"");
                 }

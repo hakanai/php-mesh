@@ -31,12 +31,12 @@
     // Get the decorator using the optional 'decorator' parameter specified in the URL.
     if (@isset($HTTP_GET_VARS["decorator"]))
     {
-        $decorator = $decorator_selector->getDecorator($HTTP_GET_VARS["decorator"]);
+        $decorator = $decorator_selector->get_decorator($HTTP_GET_VARS["decorator"]);
     }
     else
     {
         // Will use the default.
-        $decorator = $decorator_selector->getDecorator(NULL);
+        $decorator = $decorator_selector->get_decorator(NULL);
     }
 
     // Perform the decoration.

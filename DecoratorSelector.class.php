@@ -75,7 +75,7 @@ class DecoratorSelector
      * @param $decorator_name the name of the decorator to fetch.
      * @return the decorator, or NULL if it was not found and no default was found either.
      */
-    function getDecorator($decorator_name = NULL)
+    function get_decorator($decorator_name = NULL)
     {
         // Ensure the name provided is valid enough to use.
         if ($decorator_name != NULL && $decorator_name != '' && preg_match("/^\w+$/", $decorator_name) == 1)
