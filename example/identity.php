@@ -1,7 +1,7 @@
 <html>
 <head>
-<title><?php $mesh->title(); ?></title>
-<?php $mesh->head(); ?>
+<title><?php $page->title(); ?></title>
+<?php $page->head(); ?>
 </head>
-<body><?php $mesh->body(); ?></body>
+<body><?php $page->body(); ?></body>
 </html>
