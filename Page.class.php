@@ -53,30 +53,30 @@ class Page
     function Page($page_content)
     {
         // Match the <head/> element.
-        if (preg_match("#<head.*?>(.*?)</head>#s", $page_content, $matches))
+        if (preg_match("#<head.*?>(.*?)</head>#si", $page_content, $matches))
         {
             $this->_head = $matches[1];
 
             // Match the <title/> element.
-            if (preg_match("#<title.*?>(.*?)</title>#s", $this->_head, $matches))
+            if (preg_match("#<title.*?>(.*?)</title>#si", $this->_head, $matches))
             {
                 // Store away the title.
                 $this->_title = trim($matches[1]);
 
                 // Match <meta/> tags.
-                if (preg_match("#<meta.*?>#", $this->_head, $matches))
+                if (preg_match("#<meta.*?>#i", $this->_head, $matches))
                 {
                     $meta_tag = $matches[0];
 
                     // Match the key.  (name and http-equiv are treated equally.)
-                    if (preg_match("#\bname\s*=\s*\"(.*?)\"#s", $meta_tag, $matches) ||
-                        preg_match("#\bhttp-equiv\s*=\s*\"(.*?)\"#s", $meta_tag, $matches))
+                    if (preg_match("#\bname\s*=\s*\"(.*?)\"#si", $meta_tag, $matches) ||
+                        preg_match("#\bhttp-equiv\s*=\s*\"(.*?)\"#si", $meta_tag, $matches))
                     {
                         $meta_name = $matches[1];
                     }
 
                     // Match the value.
-                    if (preg_match("#\bcontent\s*=\s*\"(.*?)\"#s", $meta_tag, $matches))
+                    if (preg_match("#\bcontent\s*=\s*\"(.*?)\"#si", $meta_tag, $matches))
                     {
                         $meta_value = $matches[1];
                     }
@@ -86,13 +86,13 @@ class Page
                 }
 
                 // Store away the header with the title removed.
-                $this->_head = preg_replace("#<title.*?>.*?</title>#s", "", $this->_head);
+                $this->_head = preg_replace("#<title.*?>.*?</title>#si", "", $this->_head);
                 $this->_head = trim($this->_head);
             }
         }
 
         // Match the <body/> element.
-        if (preg_match("#(<body.*?>)(.*?)</body>#s", $page_content, $matches))
+        if (preg_match("#(<body.*?>)(.*?)</body>#si", $page_content, $matches))
         {
             // Store away the body.
             $this->_body = trim($matches[2]) . "\n";

@@ -2,7 +2,9 @@
 Change Log
 -----------
 
-  - BUGFIX: $DOCUMENT_ROOT variable is not present when server globals are disabled,
+  - FEATURE REQUEST: Made regular expressions match the upper-case HTML tags of old.
+  
+  - FEATURE REQUEST: $DOCUMENT_ROOT variable is not present when server globals are disabled,
     so use $_SERVER[] instead.
 
 Version v0.5:
