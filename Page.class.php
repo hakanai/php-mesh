@@ -1,13 +1,32 @@
 <?php
-    //--------------------------------------------------------------------------------------------------------
-    // Class: Page
-    //
-    // This class parses the HTML page which is to be decorated, and provides
-    // various convenience methods for getting and printing data from the page.
-    //
-    // Author: Trejkaz Xaoza <trejkaz@xaoza.net>
-    //--------------------------------------------------------------------------------------------------------
+/*
+    PHP-Mesh - A page meshing framework for PHP.
+    Copyright ? 2003  Trejkaz Xaoza
 
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+    You can contact the author by electronic mail, which is presently
+    at the following address: trejkaz@xaoza.net
+*/
+
+/**
+ * This class parses the HTML page which is to be decorated, and provides
+ * various convenience methods for getting and printing data from the page.
+ *
+ * @author Trejkaz Xaoza <trejkaz@xaoza.net>
+ */
 class Page
 {
     // The page title.
@@ -25,9 +44,11 @@ class Page
     // The body attributes.
     var $bodyAttrs = array();
 
-    // Constructs a Page object.
-    // Parameters:
-    //     $pageContent  - The entire page content, as a single string.
+    /**
+     * Constructs a Page object.
+     *
+     * @param $pageContent The entire page content, as a single string.
+     */
     function Page($pageContent)
     {
         // Match the <head/> element.
@@ -91,22 +112,28 @@ class Page
         }
     }
 
-    // Print the page title.
+    /**
+     * Print the page title.
+     */
     function printTitle()
     {
         print($this->title);
     }
 
-    // Print the remainder of the head contents, after the title is removed.
+    /**
+     * Print the remainder of the head contents, after the title is removed.
+     */
     function printHeadRemains()
     {
         print($this->headRemains);
     }
 
-    // Print a single meta tag.
-    // Parameters:
-    //     $metaName   - The name of the meta tag.
-    //     $formatted  - Whether to format the meta tag as HTML (defaults to false.) 
+    /**
+     * Print a single meta tag.
+     *
+     * @param $metaName The name of the meta tag.
+     * @param $formatted Whether to format the meta tag as HTML. (default = false) 
+     */
     function printMeta($metaName, $formatted = false)
     {
         if ($this->metas[$metaName])
@@ -123,10 +150,12 @@ class Page
         }
     }
 
-    // Print a single attribute from the body tag.
-    // Parameters:
-    //     $attrName   - The name of the attribute.
-    //     $formatted  - Whether to format the attribute as HTML (defaults to false.)
+    /**
+     * Print a single attribute from the body tag.
+     *
+     * @param $attrName The name of the attribute.
+     * @param $formatted Whether to format the attribute as HTML. (default = false)
+     */
     function printBodyAttr($attrName, $formatted = false)
     {
         if ($this->bodyAttrs[$attrName])
@@ -143,7 +172,9 @@ class Page
         }
     }
 
-    // Print the page body.
+    /**
+     * Print the page body.
+     */
     function printBody()
     {
         print($this->body);
@@ -152,4 +183,3 @@ class Page
 } // class Page
 
 ?>
-
