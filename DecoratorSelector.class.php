@@ -46,19 +46,24 @@ class DecoratorSelector
      */
     function DecoratorSelector()
     {
+        global $DOCUMENT_ROOT;
+
+        // Protect against Random Q. User inserting space in his config file.
+        ob_start();
         require("${DOCUMENT_ROOT}/.phpmeshrc");
+        ob_end_clean();
 
         // Get the name of the default decorator.
-        $_default_decorator_name = $meshconfig{'decorator_default'};
+        $this->_default_decorator_name = $meshconfig{'decorator_default'};
 
         // Construct the decorator directory.
-        $_decorator_directory = $meshconfig{'decorator_directory'};
-        if (strstr($_decorator_directory, '/') != 0)
+        $this->_decorator_directory = $meshconfig{'decorator_directory'};
+        if (strstr($this->_decorator_directory, '/') != 0)
         {
-            $_decorator_directory = $DOCUMENT_ROOT . '/' . $_decorator_directory;
+            $this->_decorator_directory = $DOCUMENT_ROOT . '/' . $this->_decorator_directory;
         }
         // (Canonicalise the path.)
-        $_decorator_directory = realpath($_decorator_directory);
+        $this->_decorator_directory = realpath($this->_decorator_directory);
     }
 
     /**
@@ -75,7 +80,7 @@ class DecoratorSelector
         // Ensure the name provided is valid enough to use.
         if ($decorator_name != NULL && $decorator_name != '' && preg_match("/^\w+$/", $decorator_name) == 1)
         {
-            $decorator_filename = $_decorator_directory . '/' . $decorator_name . '.php';
+            $decorator_filename = $this->_decorator_directory . '/' . $decorator_name . '.php';
 
             // Fall out to use the default if the file couldn't be found.
             if (file_exists($decorator_filename))
@@ -85,7 +90,7 @@ class DecoratorSelector
         }
 
         // Now try the default...
-        $decorator_filename = $_decorator_directory . '/' . $_default_decorator_name . '.php';
+        $decorator_filename = $this->_decorator_directory . '/' . $this->_default_decorator_name . '.php';
         if (file_exists($decorator_filename))
         {
             return new Decorator($decorator_filename);
