@@ -22,8 +22,7 @@
 */
 
     // The real page just occurred because this is the footer.
-    $page_content = ob_get_contents();
-    ob_end_clean();
+    $page_content = ob_get_clean();
 
     // Create the page object.  This guy does all the parsing work.
     $page = new Page($page_content);
