@@ -6,17 +6,10 @@ VERSION=0.1
 TEMPDIR=${PRODUCT}-${VERSION}
 ARCHIVE=${PRODUCT}-${VERSION}.tar.gz
 
+rm -rf $TEMPDIR
 mkdir -p $TEMPDIR
 
-cat LICENSE.preamble README > $TEMPDIR/README
-cp LICENSE $TEMPDIR
-
-for f in *.php ; do
-    echo "<?php /*" > $TEMPDIR/$f
-    cat LICENSE.preamble >> $TEMPDIR/$f
-    echo "*/ ?>" >> $TEMPDIR/$f
-    cat $f >> $TEMPDIR/$f
-done
+cp -R LICENSE README *.php example $TEMPDIR
 
 tar zcf $ARCHIVE $TEMPDIR
 
