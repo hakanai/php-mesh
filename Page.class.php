@@ -207,7 +207,7 @@ class Page
 
         // Capture the output from requiring the page.
         ob_start();
-        require($page_location);
+        require($decorator_selector->get_path($page_location));
         $page_contents = ob_get_clean();
 
         // Create the page object.  This guy does all the parsing work.
