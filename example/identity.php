@@ -1,7 +1,7 @@
 <html>
 <head>
-<title><?php $mesh->printTitle(); ?></title>
-<?php $mesh->printHeadRemains(); ?>
+<title><?php $mesh->title(); ?></title>
+<?php $mesh->head(); ?>
 </head>
-<body><?php $mesh->printBody(); ?></body>
+<body><?php $mesh->body(); ?></body>
 </html>

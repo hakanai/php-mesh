@@ -1,13 +1,13 @@
 <html>
 <head>
-<title>MySite :: <?php $mesh->printTitle(); ?></title>
-<?php $mesh->printHeadRemains(); ?>
+<title>MySite :: <?php $mesh->title(); ?></title>
+<?php $mesh->head(); ?>
 </head>
 <body>
 
-<h1><?php $mesh->printTitle(); ?></h1>
+<h1><?php $mesh->title(); ?></h1>
 
-<?php $mesh->printBody(); ?>
+<?php $mesh->body(); ?>
 
 </body>
 </html>

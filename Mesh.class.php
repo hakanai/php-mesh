@@ -30,19 +30,20 @@
 class Mesh
 {
     // The page title.
-    var $title;
+    // This variable is prone to change, so don't use it directly.
+    var $_title;
 
     // The remainder of the page head contents, after the title is removed.
-    var $headRemains;
+    // This variable is prone to change, so don't use it directly.
+    var $_head;
 
-    // The meta variables.
-    var $metas = array();
+    // The page properties.
+    // This variable is prone to change, so don't use it directly.
+    var $_properties = array();
 
     // The page body.
-    var $body;
-
-    // The body attributes.
-    var $bodyAttrs = array();
+    // This variable is prone to change, so don't use it directly.
+    var $_body;
 
     /**
      * Constructs a Mesh object.
@@ -54,23 +55,16 @@ class Mesh
         // Match the <head/> element.
         if (preg_match("#<head.*?>(.*?)</head>#s", $pageContent, $matches))
         {
-            $pageHead = $matches[1];
+            $this->_head = $matches[1];
 
             // Match the <title/> element.
-            if (preg_match("#<title.*?>(.*?)</title>#s", $pageHead, $matches))
+            if (preg_match("#<title.*?>(.*?)</title>#s", $this->_head, $matches))
             {
                 // Store away the title.
-                $this->title = trim($matches[1]);
-
-                // Store away the header with the title removed.
-                $this->headRemains = trim(preg_replace("#<title>(.*?)</title>#s", "", $pageHead));
-                if ($this->headRemains != "")
-                {
-                    $this->headRemains .= "\n";
-                }
+                $this->_title = trim($matches[1]);
 
                 // Match <meta/> tags.
-                if (preg_match("#<meta.*?>#", $pageHead, $matches))
+                if (preg_match("#<meta.*?>#", $this->_head, $matches))
                 {
                     $pageMetaTag = $matches[0];
 
@@ -88,8 +82,12 @@ class Mesh
                     }
 
                     // Store away the meta key and value.
-                    $this->metas[$pageMetaName] = $pageMetaValue;
+                    $this->_properties['meta.' . $pageMetaName] = $pageMetaValue;
                 }
+
+                // Store away the header with the title removed.
+                $this->_head = preg_replace("#<title.*?>.*?</title>#s", "", $this->_head);
+                $this->_head = trim($this->_head);
             }
         }
 
@@ -97,7 +95,7 @@ class Mesh
         if (preg_match("#(<body.*?>)(.*?)</body>#s", $pageContent, $matches))
         {
             // Store away the body.
-            $this->body = trim($matches[2]) . "\n";
+            $this->_body = trim($matches[2]) . "\n";
 
             // Match the attributes in the body tag.
             $pageBodyStartTag = $matches[1];
@@ -106,7 +104,7 @@ class Mesh
                 foreach ($matches as $match)
                 {
                     // Store away the body attribute key and value.
-                    $this->bodyAttrs[$match[1]] = $match[2];
+                    $this->_properties['body.' . $match[1]] = $match[2];
                 }
             }
         }
@@ -114,60 +112,77 @@ class Mesh
 
     /**
      * Print the page title.
+     *
+     * @param $default The default value of the title, to use if no property is defined.
      */
-    function printTitle()
+    function title()
     {
-        print($this->title);
+        print($this->_title);
     }
 
     /**
      * Print the remainder of the head contents, after the title is removed.
      */
-    function printHeadRemains()
+    function head()
     {
-        print($this->headRemains);
+        print($this->_head);
     }
 
     /**
-     * Print a single meta tag.
+     * Get a single property.
      *
-     * @param $metaName The name of the meta tag.
-     * @param $formatted Whether to format the meta tag as HTML. (default = false) 
+     * @param $propertyName The name of the property.
+     * @param $default The default value of the property, to use if the property is not defined.
      */
-    function printMeta($metaName, $formatted = false)
+    function getProperty($propertyName, $default = NULL)
     {
-        if ($this->metas[$metaName])
+        $propertyValue = $this->_properties[$propertyName];
+        if ($propertyValue == NULL)
         {
-            if ($formatted)
-            {
-                print("<meta name=\"$metaName\" content=\"");
-            }
-            print($this->metas[$metaName]);
-            if ($formatted)
-            {
-                print("\" />");
-            }
+            $propertyName = $default;
         }
+        return $propertyValue;
     }
 
     /**
-     * Print a single attribute from the body tag.
+     * Print a single property.
      *
-     * @param $attrName The name of the attribute.
-     * @param $formatted Whether to format the attribute as HTML. (default = false)
+     * Properties found in <meta> tags are named meta.[propertyName].
+     * Properties found on the <body> tag as attributes are named body.[propertyName].
+     *
+     * @param $propertyName The name of the property.
+     * @param $default The default value of the property, to use if the property is not defined.
+     * @param $formatted Whether to format the property as it originally appeared.
      */
-    function printBodyAttr($attrName, $formatted = false)
+    function property($propertyName, $default = NULL, $formatted = false)
     {
-        if ($this->bodyAttrs[$attrName])
+        $propertyValue = $this->getProperty($propertyName, $default);
+        if ($propertyValue != NULL)
         {
             if ($formatted)
             {
-                print(" $attrName=\"");
+                if (strstr($propertyName, "meta.") == 0)
+                {
+                    print("<meta name=\"$metaName\" content=\"");
+                }
+                else if (strstr($propertyName, "body.") == 0)
+                {
+                    print(" $attrName=\"");
+                }
             }
-            print($this->bodyAttrs[$attrName]);
+
+            print($propertyValue);
+
             if ($formatted)
             {
-                print("\"");
+                if (strstr($propertyName, "meta.") == 0)
+                {
+                    print("\" />");
+                }
+                else if (strstr($propertyName, "body.") == 0)
+                {
+                    print("\"");
+                }
             }
         }
     }
@@ -175,9 +190,9 @@ class Mesh
     /**
      * Print the page body.
      */
-    function printBody()
+    function body()
     {
-        print($this->body);
+        print($this->_body);
     }
 
 } // class Mesh
