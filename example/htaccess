@@ -1,0 +1,7 @@
+
+AddType application/x-httpd-php .html .php .htm
+
+php_value auto_prepend_file "__PATH_TO_PHPMESH__/mesh-header.php"
+php_value auto_append_file "__PATH_TO_PHPMESH__/mesh-footer.php"
+
+
