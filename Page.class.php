@@ -48,12 +48,12 @@ class Page
     /**
      * Constructs a Page object.
      *
-     * @param $pageContent The entire page content, as a single string.
+     * @param $page_content The entire page content, as a single string.
      */
-    function Page($pageContent)
+    function Page($page_content)
     {
         // Match the <head/> element.
-        if (preg_match("#<head.*?>(.*?)</head>#s", $pageContent, $matches))
+        if (preg_match("#<head.*?>(.*?)</head>#s", $page_content, $matches))
         {
             $this->_head = $matches[1];
 
@@ -66,23 +66,23 @@ class Page
                 // Match <meta/> tags.
                 if (preg_match("#<meta.*?>#", $this->_head, $matches))
                 {
-                    $pageMetaTag = $matches[0];
+                    $meta_tag = $matches[0];
 
                     // Match the key.  (name and http-equiv are treated equally.)
-                    if (preg_match("#\bname\s*=\s*\"(.*?)\"#s", $pageMetaTag, $matches) ||
-                        preg_match("#\bhttp-equiv\s*=\s*\"(.*?)\"#s", $pageMetaTag, $matches))
+                    if (preg_match("#\bname\s*=\s*\"(.*?)\"#s", $meta_tag, $matches) ||
+                        preg_match("#\bhttp-equiv\s*=\s*\"(.*?)\"#s", $meta_tag, $matches))
                     {
-                        $pageMetaName = $matches[1];
+                        $meta_name = $matches[1];
                     }
 
                     // Match the value.
-                    if (preg_match("#\bcontent\s*=\s*\"(.*?)\"#s", $pageMetaTag, $matches))
+                    if (preg_match("#\bcontent\s*=\s*\"(.*?)\"#s", $meta_tag, $matches))
                     {
-                        $pageMetaValue = $matches[1];
+                        $meta_value = $matches[1];
                     }
 
                     // Store away the meta key and value.
-                    $this->_properties['meta.' . $pageMetaName] = $pageMetaValue;
+                    $this->_properties['meta.' . $meta_name] = $meta_value;
                 }
 
                 // Store away the header with the title removed.
@@ -92,14 +92,14 @@ class Page
         }
 
         // Match the <body/> element.
-        if (preg_match("#(<body.*?>)(.*?)</body>#s", $pageContent, $matches))
+        if (preg_match("#(<body.*?>)(.*?)</body>#s", $page_content, $matches))
         {
             // Store away the body.
             $this->_body = trim($matches[2]) . "\n";
 
             // Match the attributes in the body tag.
-            $pageBodyStartTag = $matches[1];
-            if (preg_match_all("#\b(\S+)\s*=\s*\"(.*?)\"#s", $pageBodyStartTag, $matches, PREG_SET_ORDER))
+            $body_start_tag = $matches[1];
+            if (preg_match_all("#\b(\S+)\s*=\s*\"(.*?)\"#s", $body_start_tag, $matches, PREG_SET_ORDER))
             {
                 foreach ($matches as $match)
                 {
@@ -193,6 +193,31 @@ class Page
     function body()
     {
         print($this->_body);
+    }
+
+    /**
+     * Includes the specified page as decorated content.
+     *
+     * @param $page_location the location of the page, a filename.
+     * @param $decorator_name the name of the decorator to decorate the page with.
+     */
+    function apply_decorator($page_location, $decorator_name)
+    {
+        global $decorator_selector;
+
+        // Capture the output from requiring the page.
+        ob_start();
+        require($page_location);
+        $page_contents = ob_get_clean();
+
+        // Create the page object.  This guy does all the parsing work.
+        $page = new Page($page_contents);
+
+        // Create the decorator.
+        $decorator = $decorator_selector->get_decorator($decorator_name);
+
+        // Perform the decoration.
+        $decorator->decorate($page);
     }
 
 } // class Page
