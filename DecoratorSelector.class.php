@@ -58,7 +58,7 @@ class DecoratorSelector
 
         // Construct the decorator directory.
         $this->_decorator_directory = $meshconfig{'decorator_directory'};
-        if (strstr($this->_decorator_directory, '/') != 0)
+        if (strstr($this->_decorator_directory, '/') != 1)
         {
             $this->_decorator_directory = $DOCUMENT_ROOT . '/' . $this->_decorator_directory;
         }
