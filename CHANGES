@@ -1,0 +1,11 @@
+
+Change Log
+-----------
+
+Version v0.2:
+  - Renamed Page class to Mesh.
+  - Simplified method names, bringing them more inline with SiteMesh's tag names.
+
+Version 0.1:
+  - Initial release.
+
