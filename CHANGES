@@ -2,6 +2,8 @@
 Change Log
 -----------
 
+Version v1.0:
+
   - FEATURE REQUEST: Made regular expressions match the upper-case HTML tags of old.
   
   - FEATURE REQUEST: $DOCUMENT_ROOT variable is not present when server globals are disabled,
