@@ -2,6 +2,9 @@
 Change Log
 -----------
 
+  - BUGFIX: $DOCUMENT_ROOT variable is not present when server globals are disabled,
+    so use $_SERVER[] instead.
+
 Version v0.5:
 
   - Implemented the 'apply_decorator' function on the Page class, which allows decorators to
