@@ -65,13 +65,14 @@ INSTALLING:
     5. Complete!  Viewing a PHP file from your document directory should now
        result in the file being meshed with the example decorator.
 
+FURTHER INFORMATION:
+
+    For further information, I suggest checking out the docs/ directory for more
+    detailed documentation.
+
 TODO:
 
-    There is much to do.  I am pretty close to the core functionality of the
-    Java version of SiteMesh now, but I'm sure there are a whole lot of things
-    left to complete before 1.0!
-
-    The next version should have more documented examples.
+    I need to make some more documented examples, and write a tutorial.
 
 FEEDBACK:
 

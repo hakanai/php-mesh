@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>PHP-Mesh Documentation</title>
+<meta name="Author" content="Trejkaz Xaoza"/>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+
+<h1>PHP-Mesh Documentation</h1>
+
+<p> This is the beginnings to the documentation for PHP-Mesh.  I intend to describe how to use
+    the system in full eventually but for now, I will document all the methods of the <code>Page</code> class.
+    This file will be gradually broken into individual files as it becomes necessary.</p>
+
+<!-- It would be good if all this could be auto-generated.  Perhaps I should look into some
+     PHP equivalent to JavaDoc. -->
+
+<h2>Page class</h2>
+
+<p> The <code>Page</code> class is the main object which performs the work for the decorator.  An object
+    of type <code>Page</code> is made available to the decorator, and this object is stored in the variable
+    <code>$page</code>.</p>
+
+<p> The <code>Page</code> class also performs the parsing for the page which is being decorated.</p>
+
+<h3>Constructor <code>Page($page_content)</code></h3>
+
+<p> The constructor parses the page and initialises all the variables from the result of parsing the page.
+    If you are only writing a decorator you don't need to know about this because the <code>Page</code>
+    object is constructed for you.</p>
+
+<h3>Function <code>title()</code></h3>
+
+<p> The <code>title</code> function prints the page title, which is pulled from between the
+    <code>&lt;title&gt;...&lt;/title&gt;</code> tags of the HTML page.</p>
+
+<h3>Function <code>head()</code></h3>
+
+<p> The <code>head</code> function prints the page header, which is pulled from between the
+    <code>&lt;head&gt;...&lt;/head&gt;</code> tags of the HTML page.  The title is not printed, however,
+    so this function allows your decorator to append the original head contents after your own header.</p>
+
+<h3>Function <code>get_url()</code></h3>
+
+<p> The <code>get_url</code> function returns the URL of the current page.  This is useful in cases where
+    you need to test the current page to apply rules to the way certain things are formatted.  In particular,
+    menus tend to highlight the option representing the current page, or draw more menu items under the
+    current section of the site to implement a kind of expanding menu.</p>
+
+<dl>
+    <dt>Returns:</dt>
+    <dd>The URL of the current page.</dd>
+</dl>
+
+<h3>Function <code>get_property($propertyName, $default = NULL)</code></h3>
+
+<p> The <code>get_property</code> function returns the value of a property in the page.</p>
+
+<p> Properties come from a number of sources and are named depending on where they came from:</p>
+
+<ul>
+    <li>If a property comes from a <code>&lt;meta&gt;</code> tag of the page,
+        it is named <code>"meta.<i>[name]</i>"</code>, where the name is the <code>name</code>
+        attribute of the tag which the property comes from.</li>
+    <li>If a property comes from the <code>&lt;body&gt;</code> tag of the page,
+        it is named <code>"body.<i>[name]</i>"</code>, where the name is the name of the
+        attribute of the body tag which the property comes from.</li>
+</ul>
+
+<dl>
+    <dt>Parameters:</dt>
+    <dd>$propertyName - the name of the property;</dd>
+    <dd>$default - the default value to use if the property was not set. (default = NULL)</dd>
+    <dt>Returns:</dt>
+    <dd>The value of the property, or the default value if it was not set.</dd>
+</dl>
+
+<h3>Function <code>property($property_name, $default = NULL, $formatted = false)</code></h3>
+
+<p> The <code>property</code> function prints a property in the page.  The property can optionally
+    be formatted to appear like it was in the source page.</p>
+
+<dl>
+    <dt>Parameters:</dt>
+    <dd>$propertyName - the name of the property;</dd>
+    <dd>$default - the default value to use if the property was not set. (default = NULL)</dd>
+    <dd>$formatted - whether to format the property as it originally appeared. (default = false)</dd>
+</dl>
+
+<h3>Function <code>body()</code></h3>
+
+<p> The <code>body</code> function prints the page body, which is pulled from between the
+    <code>&lt;body&gt;...&lt;/body&gt;</code> tags of the HTML page.</p>
+    
+<h3>Function <code>apply_decorator($page_location, $decorator_name)</code></h3>
+
+<p> The <code>apply_decorator</code> function is used to create portals.  It makes a request to another
+    page, stores off the content and then applies the specified decorator to that content.  In this
+    fashion you can have decorators which do nothing but place a <code>&lt;div&gt;...&lt;/div&gt;</code>
+    around the body of a page, and stack these together to create an entire portal.</p>
+
+<p> It can also be used to insert quick snippets of information from smaller pages, in the border of
+    the main page.</p>
+
+<dl>
+    <dt>Parameters:</dt>
+    <dd>$page_location - the location of the page to fetch and apply the decorator to, which may be
+                         relative to the decorator.</dd>
+    <dd>$decorator_name - the name of the decorator to apply to the page.  The decorator must exist
+                          in the same directory as the other decorators.</dd>
+</dt>
+
+</body>
+</html>
+
