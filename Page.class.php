@@ -27,7 +27,7 @@
  *
  * @author Trejkaz Xaoza <trejkaz@xaoza.net>
  */
-class Mesh
+class Page
 {
     // The page title.
     // This variable is prone to change, so don't use it directly.
@@ -46,11 +46,11 @@ class Mesh
     var $_body;
 
     /**
-     * Constructs a Mesh object.
+     * Constructs a Page object.
      *
      * @param $pageContent The entire page content, as a single string.
      */
-    function Mesh($pageContent)
+    function Page($pageContent)
     {
         // Match the <head/> element.
         if (preg_match("#<head.*?>(.*?)</head>#s", $pageContent, $matches))
@@ -195,6 +195,6 @@ class Mesh
         print($this->_body);
     }
 
-} // class Mesh
+} // class Page
 
 ?>
