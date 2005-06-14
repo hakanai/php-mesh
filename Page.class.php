@@ -1,7 +1,7 @@
 <?php
 /*
     PHP-Mesh - A page meshing framework for PHP.
-    Copyright ? 2003  Trejkaz Xaoza
+    Copyright ? 2003  Trejkaz
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -18,14 +18,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     You can contact the author by electronic mail, which is presently
-    at the following address: trejkaz@xaoza.net
+    at the following address: trejkaz@trypticon.org
 */
 
 /**
  * This class parses the HTML page which is to be decorated, and provides
  * various convenience methods for getting and printing data from the page.
  *
- * @author Trejkaz Xaoza <trejkaz@xaoza.net>
+ * @author Trejkaz <trejkaz@trypticon.org>
  */
 class Page
 {

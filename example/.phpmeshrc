@@ -1,8 +1,5 @@
 <?php
 
-// This file must be renamed to .phpmeshrc, be appropriately customised,
-// and copied into the root of your Apache documents directory.
-
 $meshconfig = array( 'decorator_directory' => 'decorators',     // Directory which will contain decorator files.
                      'decorator_default'   => 'default',        // Defines the default decorator as 'default.php'.
                    );

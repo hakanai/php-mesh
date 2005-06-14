@@ -1,0 +1,11 @@
+
+AddType application/x-httpd-php .html .php .htm
+
+# The following two lines need to point at the directory in which you've installed PHP-Mesh.
+# Note that this doesn't necessarily need to be a directory underneath the web root,
+# You can install it in a single location common to multiple sites.
+
+php_value auto_prepend_file "__PATH_TO_PHPMESH__/mesh-header.php"
+php_value auto_append_file "__PATH_TO_PHPMESH__/mesh-footer.php"
+
+

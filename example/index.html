@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>PHP-Mesh Test Page</title>
+  </head>
+  <body>
+
+    <p> If you see a dotted red border around this page then PHP-Mesh is working as expected.</p>
+
+    <p> Notice how no HTML or PHP code had to be added to the test page in order to add this border.</p>
+
+    <!-- This trick makes the following paragraph display only if PHP is not enabled.
+         If you see this text in an HTML comment, there is no problem with your setup. -->
+    <?php print("<!--"); ?>
+    <p> PHP is not enabled.  Your Apache configuration probably needs fixing.</p>
+    <?php print("-->"); ?>
+
+  </body>
+</html>
+

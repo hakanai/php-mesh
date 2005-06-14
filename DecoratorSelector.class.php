@@ -1,7 +1,7 @@
 <?php
 /*
     PHP-Mesh - A page meshing framework for PHP.
-    Copyright ? 2003  Trejkaz Xaoza
+    Copyright ? 2003  Trejkaz
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     You can contact the author by electronic mail, which is presently
-    at the following address: trejkaz@xaoza.net
+    at the following address: trejkaz@trypticon.org
 */
 
 require_once('Decorator.class.php');
@@ -29,7 +29,7 @@ require_once('utils.php');
  * given the decorators' names.  It does this using the .phpmeshrc configuration
  * file in the document root.
  *
- * @author Trejkaz Xaoza <trejkaz@xaoza.net>
+ * @author Trejkaz <trejkaz@trypticon.org>
  */
 class DecoratorSelector
 {
@@ -47,16 +47,23 @@ class DecoratorSelector
      */
     function DecoratorSelector()
     {
+        $phpmeshrc_file = find_nearest('.phpmeshrc');
+
+        if ($phpmeshrc_file == NULL)
+        {
+            die("FATAL: Couldn't find .phpmeshrc");
+        }
+
         // Protect against Random Q. User inserting space in his config file.
         ob_start();
-        require($_SERVER['DOCUMENT_ROOT'] . '/.phpmeshrc');
+        require($phpmeshrc_file);
         ob_end_clean();
 
         // Get the name of the default decorator.
         $this->_default_decorator_name = $meshconfig{'decorator_default'};
 
-        // Resolve the decorator directory relative to the document root.
-        $this->_decorator_directory = resolve_path($_SERVER['DOCUMENT_ROOT'], $meshconfig{'decorator_directory'});
+        // Resolve the decorator directory relative to the .phpmeshrc file.
+        $this->_decorator_directory = resolve_path(dirname($phpmeshrc_file), $meshconfig{'decorator_directory'});
     }
 
     /**
@@ -82,6 +89,22 @@ class DecoratorSelector
      */
     function get_decorator($decorator_name = NULL)
     {
+        if (@isset($_GET["decorator"]))
+        {
+            $decorator_name = $_GET["decorator"];
+        }
+        else
+        {
+            // Will use the default in a second.
+            $decorator_name = NULL;
+        }
+
+        // Treat identity as a special decorator name.
+        if ($decorator_name == "identity")
+        {
+            return NULL;
+        }
+
         // Ensure the name provided is valid enough to use.
         if ($decorator_name != NULL && $decorator_name != '' && preg_match("/^\w+$/", $decorator_name) == 1)
         {

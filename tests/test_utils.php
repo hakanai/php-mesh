@@ -1,7 +1,7 @@
 <?php
 /*
     PHP-Mesh - A page meshing framework for PHP.
-    Copyright ? 2004  Trejkaz Xaoza
+    Copyright ? 2004  Trejkaz
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     You can contact the author by electronic mail, which is presently
-    at the following address: trejkaz@xaoza.net
+    at the following address: trejkaz@trypticon.org
 */
 
     require_once("../utils.php");
@@ -47,4 +47,22 @@
         assert(resolve_path("/tmp", "../var") == "/var");
         assert(resolve_path("/tmp", ".") == "/tmp");
     }
+
+    // Tests of the chop_last function.
+    assert(chop_last("/") == "");
+    assert(chop_last("/foo") == "/");
+    assert(chop_last("/foo/") == "/");
+    assert(chop_last("/longer/path") == "/longer/");
+    assert(chop_last("/longer/path/") == "/longer/");
+
+    // Tests of the chop_file function.
+    assert(chop_file("/") == "/");
+    assert(chop_file("/foo") == "/");
+    assert(chop_file("/foo/") == "/foo/");
+    assert(chop_file("/longer/path") == "/longer/");
+    assert(chop_file("/longer/path/") == "/longer/path/");
+    
+    // Tests of the find_nearest function.  This can't test with Apache, unfortunately...
+    assert(find_nearest("test_utils.php") == "test_utils.php");
+    assert(find_nearest("bogus_file.php") == NULL);
 ?>

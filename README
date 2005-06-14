@@ -1,6 +1,6 @@
 
 PHP-Mesh   - Page meshing framework for PHP.
-Copyright (c) 2003-2004  Trejkaz Xaoza
+Copyright (c) 2003-2004  Trejkaz
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 You can contact the author by electronic mail, which is presently
-at the following address: trejkaz@xaoza.net
+at the following address: trejkaz@trypticon.org
 
 
 PURPOSE:
@@ -44,30 +44,32 @@ REQUIRMENTS:
     than Apache anymore?)
 
     For the php_value directives to work in your configuration, the web server
-    requires the AllowOverride directive to contain Options.
+    requires the AllowOverride directive to contain Options.  To be able to
+    decorate files whose extension is .html, you will need AllowOverride FileInfo
+    as well.
 
 INSTALLING:
 
-    (Instructions will assume installation by an ordinary user, not for
-     site-wide use.)
+    The following instructions will have you install a test page to check whether
+    PHP-Mesh will work for you.
+
+    Instructions will assume installation by an ordinary user, not for
+    site-wide use.
 
     1. Extract the PHP-Mesh archive to a known location, such as ~/phpmesh .
 
-    2. Copy and customise the contents of the 'htaccess' file in the examples
-       directory to the .htaccess file in the root of your document directory.
-       For example, if you are an ordinary user, you should add it to
-       ~/public_html/.htaccess .  If the file does not exist, you can create it.
+    2. Copy the entire contents of the example/ directory to somewhere in your
+       web directory.  In my example, I will copy the entire example directory
+       into /var/www/localhost/htdocs/example .
 
-    3. Copy and customise the 'phpmeshrc' file in the examples directory to
-       the root of your document directory as .phpmeshrc .  Using the same
-       example, this would be ~/public_html/.phpmeshrc .
+    3. Edit the .htaccess file (/var/www/localhost/htdocs/example/.htaccess in
+       my case) so that the placeholders point to the correct location where you
+       extracted PHP-Mesh.
 
-    4. Create a 'decorators' directory in your document root and copy the file
-       'default.php' from the examples directory into the new decorators
-       directory.
-
-    5. Complete!  Viewing a PHP file from your document directory should now
-       result in the file being meshed with the example decorator.
+    4. View the test page in your web browser.  In my case the URL for the test
+       page is http://localhost/examples/ .  You should see a red border around
+       that page.  If you do not, then you should see an error message detailing
+       what might be wrong.
 
 INSTALLATION NOTES:
 
@@ -87,6 +89,6 @@ TODO:
 
 FEEDBACK:
 
-    Feedback and suggestions to trejkaz@xaoza.net
+    Feedback and suggestions to trejkaz@trypticon.org
 
 
