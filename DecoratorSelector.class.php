@@ -89,14 +89,18 @@ class DecoratorSelector
      */
     function get_decorator($decorator_name = NULL)
     {
-        if (@isset($_GET["decorator"]))
+        // If the name provided is empty or invalid, provide a default.
+        if ($decorator_name == NULL || $decorator_name == '' || preg_match("/^\w+$/", $decorator_name) != 1)
         {
-            $decorator_name = $_GET["decorator"];
-        }
-        else
-        {
-            // Will use the default in a second.
-            $decorator_name = NULL;
+            if (@isset($_GET["decorator"]))
+            {
+                $decorator_name = $_GET["decorator"];
+            }
+            else
+            {
+                // Will use the default in a second.
+                $decorator_name = $this->_default_decorator_name;
+            }
         }
 
         // Treat identity as a special decorator name.
@@ -105,20 +109,10 @@ class DecoratorSelector
             return NULL;
         }
 
-        // Ensure the name provided is valid enough to use.
-        if ($decorator_name != NULL && $decorator_name != '' && preg_match("/^\w+$/", $decorator_name) == 1)
-        {
-            $decorator_filename = $this->get_path($decorator_name . '.php');
+        // Build the filename...
+        $decorator_filename = $this->get_path($decorator_name . '.php');
 
-            // Fall out to use the default if the file couldn't be found.
-            if (file_exists($decorator_filename))
-            {
-                return new Decorator($decorator_filename);
-            }
-        }
-
-        // Now try the default...
-        $decorator_filename = $this->get_path($this->_default_decorator_name . '.php');
+        // Fall out to return NULL if the file couldn't be found.
         if (file_exists($decorator_filename))
         {
             return new Decorator($decorator_filename);
