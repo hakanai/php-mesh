@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PRODUCT=php-mesh
-VERSION=1.3-alpha2
+VERSION=1.3-alpha3
 
 TEMPDIR=${PRODUCT}-${VERSION}
 ARCHIVE=${PRODUCT}-${VERSION}.tar.gz
@@ -11,9 +11,7 @@ mkdir -p $TEMPDIR
 
 cp -R CHANGES LICENSE README *.php docs example tests $TEMPDIR
 #TODO: Make this work for more recursion.
-rm -rf $TEMPDIR/docs/.svn
-rm -rf $TEMPDIR/example/.svn
-rm -rf $TEMPDIR/tests/.svn
+rm -rf `find $TEMPDIR -name .svn`
 
 tar zcf $ARCHIVE $TEMPDIR
 
