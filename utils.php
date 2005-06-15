@@ -75,7 +75,14 @@
     function find_nearest($filename)
     {
         // This is where we start, at the directory the current script is in.
-        $path_url = chop_file($_SERVER['SCRIPT_URL']);
+        if (isset($_SERVER['SCRIPT_URL']))
+        {
+            $path_url = chop_file($_SERVER['SCRIPT_URL']);
+        }
+        if (isset($_SERVER['SCRIPT_NAME']) && !isset($path_url))
+        {
+            $path_url = chop_file($_SERVER['SCRIPT_NAME']);
+        }
         
         if (function_exists('apache_lookup_uri'))
         {
