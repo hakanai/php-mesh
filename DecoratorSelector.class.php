@@ -109,16 +109,26 @@ class DecoratorSelector
             return NULL;
         }
 
-        // Build the filename...
-        $decorator_filename = $this->get_path($decorator_name . '.php');
+        // Which file is used will depend on the language.
+        $accepted_languages = parse_http_accept_language();
+        foreach ($accepted_languages as $lang)
+        {
+            // Build the filename.  This is vaguely like Apache MultiViews.
+            $decorator_filename = $this->get_path($decorator_name . '.' . $lang . '.php');
+            if (file_exists($decorator_filename))
+            {
+                return new Decorator($decorator_filename);
+            }
+        }
 
-        // Fall out to return NULL if the file couldn't be found.
+        // Fall back to the filename without the language appended on.
+        $decorator_filename = $this->get_path($decorator_name . '.php');
         if (file_exists($decorator_filename))
         {
             return new Decorator($decorator_filename);
         }
 
-        // No luck.
+        // Fall out to return NULL if the file couldn't be found.
         return NULL;
     }
 }

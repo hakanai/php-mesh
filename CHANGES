@@ -2,6 +2,10 @@
 Change Log
 -----------
 
+  - PHP-Mesh now supports multi-language decorators.  A decorator called "default" will
+    result in a lookup for "default.zh-CN.php" if the language is set to zh-CN.  Fallback
+    is as always, to "default.php".
+
 Version 1.3:
 
   - PHP-Mesh no longer requires .phpmeshrc to exist in the document root.  It will search the

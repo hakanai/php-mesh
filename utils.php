@@ -154,4 +154,29 @@
             return chop_last($path);
         }
     }
+
+    /**
+     * Parses the HTTP_ACCEPT_LANGUAGE header and returns a list of languages / locale names
+     * in the requesting browser's preferred order.
+     *
+     * @return a list of languages the browser accepts, with the better ones listed first.
+     */
+    function parse_http_accept_language()
+    {
+        $header = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $langs = explode(',', $header);
+
+        $qvalues = array();
+        foreach ($langs as $lang)
+        {
+            ereg('([a-z]{1,2}(-([a-z0-9]+))?)(;q=([0-9\.]+))?', $lang, $found);
+            $code = $found[1];
+            $qvalue = $found[5] ? $found[5] : 1.0;
+            $qvalues[$code] = $qvalue;
+        }
+
+        // Maintains the key mappings while reordering based on the values.
+        arsort($qvalues);
+        return array_keys($qvalues);
+    }
 ?>
