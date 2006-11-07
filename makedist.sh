@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PRODUCT=php-mesh
-VERSION=1.3-alpha3
+VERSION=1.4-alpha1
 
 TEMPDIR=${PRODUCT}-${VERSION}
 ARCHIVE=${PRODUCT}-${VERSION}.tar.gz
