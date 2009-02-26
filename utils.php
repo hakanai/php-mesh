@@ -137,8 +137,10 @@
     }
 
     /**
-     * Chops the final component off a path, but only if the final component is a file.  If the
-     * path ends in "/", it remains unaffected.
+     * Chops the final component off a path, but only if the final component is a file, which is
+     * to say that if the path ends in "/", it remains unaffected.
+     *
+     * The returned path will include the slash in all cases.
      *
      * @param $path the original path.
      * @return the path with one less path component from the end, if the path didn't end in "/".

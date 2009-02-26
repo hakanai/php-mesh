@@ -21,6 +21,7 @@
     at the following address: trejkaz@trypticon.org
 */
 
+    require_once("assert.php");
     require_once("../utils.php");
 
     assert_options(ASSERT_ACTIVE, 1);
@@ -29,40 +30,40 @@
     $is_windows = (PHP_OS == 'WINNT' || PHP_OS == 'WIN32');
 
     // Tests of the is_absolute function.
-    assert(is_absolute("fish") == FALSE);
-    assert(is_absolute("fish/pants") == FALSE);
-    assert(is_absolute("c:/") == $is_windows);
-    assert(is_absolute("d:\\") == $is_windows);
-    assert(is_absolute("E:/") == $is_windows);
-    assert(is_absolute("F:\\") == $is_windows);
-    assert(is_absolute("/") == TRUE);
-    assert(is_absolute("\\") == $is_windows);
+    assert_equals(FALSE, is_absolute("fish"));
+    assert_equals(FALSE, is_absolute("fish/pants"));
+    assert_equals($is_windows, is_absolute("c:/"));
+    assert_equals($is_windows, is_absolute("d:\\"));
+    assert_equals($is_windows, is_absolute("E:/"));
+    assert_equals($is_windows, is_absolute("F:\\"));
+    assert_equals(TRUE, is_absolute("/"));
+    assert_equals($is_windows, is_absolute("\\"));
 
     // Tests of the resolve_path function.
     //TODO: Unit tests for Windows, but I require a Windows environment for this.
     if (!$is_windows)
     {
-        assert(resolve_path("/", "/tmp") == "/tmp");
-        assert(resolve_path("/", "tmp") == "/tmp");
-        assert(resolve_path("/tmp", "../var") == "/var");
-        assert(resolve_path("/tmp", ".") == "/tmp");
+        assert_equals(realpath("/tmp"), resolve_path("/", "/tmp"));
+        assert_equals(realpath("/tmp"), resolve_path("/", "tmp"));
+        assert_equals(realpath("/var"), resolve_path("/tmp", "../var"));
+        assert_equals(realpath("/tmp"), resolve_path("/tmp", "."));
     }
 
     // Tests of the chop_last function.
-    assert(chop_last("/") == "");
-    assert(chop_last("/foo") == "/");
-    assert(chop_last("/foo/") == "/");
-    assert(chop_last("/longer/path") == "/longer/");
-    assert(chop_last("/longer/path/") == "/longer/");
+    assert_equals("", chop_last("/"));
+    assert_equals("/", chop_last("/foo"));
+    assert_equals("/", chop_last("/foo/"));
+    assert_equals("/longer/", chop_last("/longer/path"));
+    assert_equals("/longer/", chop_last("/longer/path/"));
 
     // Tests of the chop_file function.
-    assert(chop_file("/") == "/");
-    assert(chop_file("/foo") == "/");
-    assert(chop_file("/foo/") == "/foo/");
-    assert(chop_file("/longer/path") == "/longer/");
-    assert(chop_file("/longer/path/") == "/longer/path/");
+    assert_equals("/", chop_file("/"));
+    assert_equals("/", chop_file("/foo"));
+    assert_equals("/foo/", chop_file("/foo/"));
+    assert_equals("/longer/", chop_file("/longer/path"));
+    assert_equals("/longer/path/", chop_file("/longer/path/"));
     
     // Tests of the find_nearest function.  This can't test with Apache, unfortunately...
-    assert(find_nearest("test_utils.php") == "test_utils.php");
-    assert(find_nearest("bogus_file.php") == NULL);
+    assert_equals("test_utils.php", find_nearest("test_utils.php"));
+    assert_equals(NULL, find_nearest("bogus_file.php"));
 ?>
