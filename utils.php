@@ -58,7 +58,7 @@
      */
     function is_absolute($path)
     {
-        $regex = (PHP_OS == 'WINNT' || PHP_OS == 'WIN32') ? "/^([a-z][A-Z]:)?[\/\\]/" : "/^\//";
+        $regex = (PHP_OS == 'WINNT' || PHP_OS == 'WIN32') ? "/^([a-z][A-Z]:)?[\\\/\\\\]/" : "/^\//";
 
         return (boolean) preg_match($regex, $path);
     }

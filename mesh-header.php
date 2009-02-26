@@ -1,7 +1,7 @@
 <?php
 /*
     PHP-Mesh - A page meshing framework for PHP.
-    Copyright © 2003  Trejkaz
+    Copyright (C) 2003-2009  Trejkaz
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public

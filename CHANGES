@@ -5,6 +5,7 @@ Change Log
   - PHP-Mesh now supports multi-language decorators.  A decorator called "default" will
     result in a lookup for "default.zh-CN.php" if the language is set to zh-CN.  Fallback
     is as always, to "default.php".
+  - Fixed a regex error which was causing problems for running on Windows systems.
   - Fixed assignment bug which prevented default values working correctly (thanks to
     Dimitri De Franciscis)
 
