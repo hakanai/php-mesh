@@ -150,7 +150,7 @@ class Page
         $property_value = $this->_properties[$property_name];
         if ($property_value == NULL)
         {
-            $property_name = $default;
+            $property_value = $default;
         }
         return $property_value;
     }
