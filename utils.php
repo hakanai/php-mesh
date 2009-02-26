@@ -74,23 +74,23 @@
      */
     function find_nearest($filename)
     {
-        // This is where we start, at the directory the current script is in.
-        if (isset($_SERVER['SCRIPT_URL']))
-        {
-            $path_url = chop_file($_SERVER['SCRIPT_URL']);
-        }
-        if (isset($_SERVER['SCRIPT_NAME']) && !isset($path_url))
-        {
-            $path_url = chop_file($_SERVER['SCRIPT_NAME']);
-        }
-        
         if (function_exists('apache_lookup_uri'))
         {
+            if (isset($_SERVER['SCRIPT_NAME']))
+            {
+                $path_url = chop_file($_SERVER['SCRIPT_NAME']);
+            }
+
+            // Some PHPs appeared to have this instead.
+            if (isset($_SERVER['SCRIPT_URL']) && !isset($path_url))
+            {
+                $path_url = chop_file($_SERVER['SCRIPT_URL']);
+            }
+
             while ($path_url != "")
             {
                 // Use Apache to find out where the actual file is for that URL.
                 $config_info = apache_lookup_uri($path_url . $filename);
-
                 if (file_exists($config_info->filename))
                 {
                     // Success!
@@ -102,16 +102,25 @@
         }
         else
         {
-            // Fallback for poor souls who aren't on Apache.
-            $file = $path_url . $filename;
-            if (file_exists($file))
+            // If not on Apache we use SCRIPT_FILENAME instead, which is the full
+            // path to the script as given to us by PHP.
+            if (isset($_SERVER['SCRIPT_FILENAME']))
             {
-                return $file;
+                $path = chop_file(realpath($_SERVER['SCRIPT_FILENAME']));
             }
-            $file = $_SERVER['DOCUMENT_ROOT'] . '/' . $filename;
-            if (file_exists($file))
+
+            // We can't just stop at DOCUMENT_ROOT as on some systems the script
+            // is running from an aliased directory instead of inside the docroot.
+            while ($path != "")
             {
-                return $file;
+                $file = $path . $filename;
+                if (file_exists($file))
+                {
+                    // Success!
+                    return $file;
+                }
+
+                $path = chop_last($path);
             }
         }
 
@@ -130,6 +139,10 @@
     {
         // Having a trailing slash at the end defeats the purpose of finding the last one.
         $path = rtrim($path, "/");
+        if ($path == "")
+        {
+            return "";
+        }
 
         // For some lame reason, strrchr in PHP returns the string instead of the offset.
         $tail = strrchr($path, "/");

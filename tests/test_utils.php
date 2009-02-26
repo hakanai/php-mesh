@@ -61,6 +61,7 @@
     assert_equals("/longer/path/", chop_file("/longer/path/"));
     
     // Tests of the find_nearest function.  This can't test with Apache, unfortunately...
-    assert_equals("test_utils.php", find_nearest("test_utils.php"));
+    assert_equals(realpath("test_utils.php"), find_nearest("test_utils.php"));
+    assert_equals(realpath("../utils.php"), find_nearest("utils.php"));
     assert_equals(NULL, find_nearest("bogus_file.php"));
 ?>

@@ -5,6 +5,9 @@ Change Log
   - PHP-Mesh now supports multi-language decorators.  A decorator called "default" will
     result in a lookup for "default.zh-CN.php" if the language is set to zh-CN.  Fallback
     is as always, to "default.php".
+  - When running outside of Apache, we now also look at SCRIPT_FILENAME to find out where
+    the script is running from, which fixes finding .phpmeshrc on some less friendly web
+    hosting setups.
   - BUGFIX: Fixed issue where it would only find the first property.
   - BUGFIX: Fixed formatter output for http-equiv, which would previously print "name="
     instead of "http-equiv=".
