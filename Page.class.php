@@ -41,6 +41,9 @@ class Page
     // This variable is prone to change, so don't use it directly.
     var $_properties = array();
 
+    // Maps property name to "name" or "http-equiv" depending on where a meta property came from.
+    var $_meta_property_types = array();
+
     // The page body.
     // This variable is prone to change, so don't use it directly.
     var $_body;
@@ -53,36 +56,41 @@ class Page
     function Page($page_content)
     {
         // Match the <head/> element.
-        if (preg_match("#<head.*?>(.*?)</head>#si", $page_content, $matches))
+        if (preg_match("#<head.*?>(.*?)</head>#si", $page_content, $match))
         {
-            $this->_head = $matches[1];
+            $this->_head = $match[1];
 
             // Match the <title/> element.
-            if (preg_match("#<title.*?>(.*?)</title>#si", $this->_head, $matches))
+            if (preg_match("#<title.*?>(.*?)</title>#si", $this->_head, $match))
             {
                 // Store away the title.
-                $this->_title = trim($matches[1]);
+                $this->_title = trim($match[1]);
 
                 // Match <meta/> tags.
-                if (preg_match("#<meta.*?>#i", $this->_head, $matches))
+                if (preg_match_all("#<meta.*?>#si", $this->_head, $matches, PREG_SET_ORDER))
                 {
-                    $meta_tag = $matches[0];
-
-                    // Match the key.  (name and http-equiv are treated equally.)
-                    if (preg_match("#\bname\s*=\s*\"(.*?)\"#si", $meta_tag, $matches) ||
-                        preg_match("#\bhttp-equiv\s*=\s*\"(.*?)\"#si", $meta_tag, $matches))
+                    foreach ($matches as $match)
                     {
-                        $meta_name = $matches[1];
-                    }
+                        $meta_tag = $match[0];
 
-                    // Match the value.
-                    if (preg_match("#\bcontent\s*=\s*\"(.*?)\"#si", $meta_tag, $matches))
-                    {
-                        $meta_value = $matches[1];
-                    }
+                        // Match the key.  (name and http-equiv are treated equally.)
+                        if (preg_match("#\b(name)\s*=\s*\"(.*?)\"#si", $meta_tag, $match) ||
+                            preg_match("#\b(http-equiv)\s*=\s*\"(.*?)\"#si", $meta_tag, $match))
+                        {
+                            $meta_type = $match[1];
+                            $meta_name = $match[2];
+                        }
 
-                    // Store away the meta key and value.
-                    $this->_properties['meta.' . $meta_name] = $meta_value;
+                        // Match the value.
+                        if (preg_match("#\bcontent\s*=\s*\"(.*?)\"#si", $meta_tag, $match))
+                        {
+                            $meta_value = $match[1];
+                        }
+
+                        // Store away the meta key and value.
+                        $this->_properties['meta.' . $meta_name] = $meta_value;
+                        $this->_meta_property_types['meta.' . $meta_name] = $meta_type;
+                    }
                 }
 
                 // Store away the header with the title removed.
@@ -92,13 +100,13 @@ class Page
         }
 
         // Match the <body/> element.
-        if (preg_match("#(<body.*?>)(.*?)</body>#si", $page_content, $matches))
+        if (preg_match("#(<body.*?>)(.*?)</body>#si", $page_content, $match))
         {
             // Store away the body.
-            $this->_body = trim($matches[2]) . "\n";
+            $this->_body = trim($match[2]) . "\n";
 
             // Match the attributes in the body tag.
-            $body_start_tag = $matches[1];
+            $body_start_tag = $match[1];
             if (preg_match_all("#\b(\S+)\s*=\s*\"(.*?)\"#s", $body_start_tag, $matches, PREG_SET_ORDER))
             {
                 foreach ($matches as $match)
@@ -172,29 +180,39 @@ class Page
         {
             if ($formatted)
             {
-                if (strstr($property_name, "meta.") == 0)
+                if (preg_match("/^(body|meta).(.*)$/", $property_name, $match))
                 {
-                    print("<meta name=\"$property_name\" content=\"");
+                    $property_prefix = $match[1];
+                    $property_name_cut = $match[2];
                 }
-                else if (strstr($property_name, "body.") == 0)
+                else
                 {
-                    print(" $property_name=\"");
+                    die("Invalid property name: $property_name.\n");
+                }
+
+                if ($property_prefix == "meta")
+                {
+                    $meta_type = $this->_meta_property_types[$property_name];
+                    $before = "<meta $meta_type=\"$property_name_cut\" content=\"";
+                    $after = "\" />";
+                }
+                else if ($property_prefix == "body")
+                {
+                    $before = " $property_name_cut=\"";
+                    $after = "\"";
+                }
+                else
+                {
+                    die("Impossible branch: $property_name   =>   $property_prefix $property_name_cut");
                 }
             }
-
-            print($property_value);
-
-            if ($formatted)
+            else
             {
-                if (strstr($property_name, "meta.") == 0)
-                {
-                    print("\" />");
-                }
-                else if (strstr($property_name, "body.") == 0)
-                {
-                    print("\"");
-                }
+                $before = "";
+                $after = "";
             }
+
+            print "$before$property_value$after";
         }
     }
 

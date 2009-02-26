@@ -24,9 +24,6 @@
     require_once("assert.php");
     require_once("../utils.php");
 
-    assert_options(ASSERT_ACTIVE, 1);
-    assert_options(ASSERT_WARNING, 1);
-
     $is_windows = (PHP_OS == 'WINNT' || PHP_OS == 'WIN32');
 
     // Tests of the is_absolute function.
