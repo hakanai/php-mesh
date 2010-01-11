@@ -64,4 +64,11 @@
     assert_equals(realpath("test_utils.php"), find_nearest("test_utils.php"));
     assert_equals(realpath("../utils.php"), find_nearest("utils.php"));
     assert_equals(NULL, find_nearest("bogus_file.php"));
+
+    // Tests of the parse_http_accept_language function.
+    assert_equals(array("en-US"), parse_http_accept_language("en-US"));
+    assert_equals(array("en-US", "en"), parse_http_accept_language("en-US,en;q=0.8"));
+    assert_equals(array("en-US", "en"), parse_http_accept_language("en;q=0.8,en-US"));
+    assert_equals(array("en-AU", "en-GB", "en"), parse_http_accept_language("en-AU,en-GB;q=0.8,en;q=0.6"));
+
 ?>

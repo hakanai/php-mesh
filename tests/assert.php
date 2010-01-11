@@ -21,9 +21,17 @@
     at the following address: trejkaz@trypticon.org
 */
 
+    function format_value($value) {
+        if (is_array($value)) {
+            return 'Array(' . implode(', ', $value) . ')';
+        } else {
+            return $value;
+        }
+    }
+
     function assert_equals($expected, $actual) {
         if ($expected != $actual) {
-            print "Assertion failed, expected: <$expected> but was: <$actual>\n";
+            print "Assertion failed, expected: <" . format_value($expected) . "> but was: <" . format_value($actual) . ">\n";
         }
     }
 

@@ -174,20 +174,27 @@
      * Parses the HTTP_ACCEPT_LANGUAGE header and returns a list of languages / locale names
      * in the requesting browser's preferred order.
      *
+     * @param $header (used by tests only) header value to parse.
      * @return a list of languages the browser accepts, with the better ones listed first.
      */
-    function parse_http_accept_language()
+    function parse_http_accept_language($header = NULL)
     {
-        $header = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        if (!isset($header))
+        {
+            $header = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        }
+
         $langs = explode(',', $header);
 
         $qvalues = array();
         foreach ($langs as $lang)
         {
-            ereg('([a-z]{1,2}(-([a-z0-9]+))?)(;q=([0-9\.]+))?', $lang, $found);
-            $code = $found[1];
-            $qvalue = $found[5] ? $found[5] : 1.0;
-            $qvalues[$code] = $qvalue;
+            if (preg_match('/^([a-z]{1,2}(-[a-z]+)?)(;q=\d+\.\d+)?$/i', $lang, &$found))
+            {
+                $code = $found[1];
+                $qvalue = $found[3] ? $found[3] : 1.0;
+                $qvalues[$code] = $qvalue;
+            }
         }
 
         // Maintains the key mappings while reordering based on the values.
