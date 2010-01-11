@@ -27,14 +27,19 @@
     $is_windows = (PHP_OS == 'WINNT' || PHP_OS == 'WIN32');
 
     // Tests of the is_absolute function.
-    assert_equals(FALSE, is_absolute("fish"));
-    assert_equals(FALSE, is_absolute("fish/pants"));
-    assert_equals($is_windows, is_absolute("c:/"));
-    assert_equals($is_windows, is_absolute("d:\\"));
-    assert_equals($is_windows, is_absolute("E:/"));
-    assert_equals($is_windows, is_absolute("F:\\"));
-    assert_equals(TRUE, is_absolute("/"));
-    assert_equals($is_windows, is_absolute("\\"));
+    // UNIX
+    assert_equals(FALSE, is_absolute("fish", FALSE));
+    assert_equals(FALSE, is_absolute("fish/pants", FALSE));
+    assert_equals(TRUE, is_absolute("/", FALSE));
+    // Windows
+    assert_equals(FALSE, is_absolute("fish", FALSE));
+    assert_equals(FALSE, is_absolute("fish/pants", FALSE));
+    assert_equals(FALSE, is_absolute("fish\\pants", FALSE));
+    assert_equals(TRUE, is_absolute("c:/", TRUE));
+    assert_equals(TRUE, is_absolute("d:\\", TRUE));
+    assert_equals(TRUE, is_absolute("E:/", TRUE));
+    assert_equals(TRUE, is_absolute("F:\\", TRUE));
+    assert_equals(TRUE, is_absolute("\\", TRUE));
 
     // Tests of the resolve_path function.
     //TODO: Unit tests for Windows, but I require a Windows environment for this.

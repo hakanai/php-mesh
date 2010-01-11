@@ -7,6 +7,7 @@ Not yet released:
   - Removed usage of ereg() function, which no longer exists in PHP 6.
   - BUGFIX: Fixed issue parsing the HTTP_ACCEPT_LANGUAGE header which resulted in the
     country part being ignored (so for example, 'en-US' would be stripped to just 'en'.)
+  - BUGFIX: Fixed another regex error causing problems for running on Windows systems.
 
 Version 1.4:
 

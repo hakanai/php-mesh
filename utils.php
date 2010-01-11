@@ -54,11 +54,17 @@
      * Tests whether a pathname is absolute.
      *
      * @param $path the path.
+     * @param $windows (used by tests only) TRUE to use Windows logic for determining this, otherwise use UNIX logic.
      * @return TRUE if the path was absolute, FALSE otherwise.
      */
-    function is_absolute($path)
+    function is_absolute($path, $windows = NULL)
     {
-        $regex = (PHP_OS == 'WINNT' || PHP_OS == 'WIN32') ? "/^([a-z][A-Z]:)?[\\\/\\\\]/" : "/^\//";
+        if (!isset($windows))
+        {
+            $windows = (PHP_OS == 'WINNT' || PHP_OS == 'WIN32');
+        }
+
+        $regex = $windows ? '#^([a-z]:)?[/\\\\]#i' : '#^/#';
 
         return (boolean) preg_match($regex, $path);
     }
